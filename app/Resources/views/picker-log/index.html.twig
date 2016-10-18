@@ -5,7 +5,7 @@
     <script type="text/javascript">
 
         function updateList() {
-            $.get('{{ path('document_tracker_list') }}', function (data) {
+            $.get('{{ path('picker_log_list') }}', function (data) {
                 $('#list').html(data);
             });
         }
@@ -19,14 +19,7 @@
             $("input[name='user']").focus();
             $("input[name='user']").keypress(function (e) {
                 var key = e.which;
-                if (key === 13) {
-                    $("input[name='documentAction']").focus();
-                    return false;
-                }
-            });
-            $("input[name='documentAction']").keypress(function (e) {
-                var key = e.which;
-                if (key === 13) {
+                if (key == 13) {
                     $("input[name='orderNumber']").focus();
                     return false;
                 }
@@ -35,7 +28,7 @@
             $("#inputForm").submit(function (event) {
                 clearTimeout(timeout);
                 $("#messages").hide();
-                $.post('{{ path('document_tracker_scan') }}', $(this).serialize(), function (data) {
+                $.post('{{ path('picker_log_scan') }}', $(this).serialize(), function (data) {
                     var messages = $.parseJSON(data).messages;
                     if (messages.length > 0) {
                         message = "";
@@ -50,7 +43,6 @@
                     updateList();
                     timeout = setTimeout(function() {
                         $("input[name='user']").val('');
-                        $("input[name='documentAction']").val('');
                         $("input[name='user']").focus();                        
                     }, 15000);
                     $("input[name='orderNumber']").val('');
@@ -64,20 +56,17 @@
 {% endblock %}
 
 {% block pageHeader %}
-    {{ knp_menu_render('AppBundle:Builder:documentLogMenu') }}    
+    {{ knp_menu_render('AppBundle:Builder:pickerLogMenu') }}    
 {% endblock %}
 
 {% block body %}
 
     <div id="messages" style="display:none;"></div>
 
-    <form  id="inputForm" action="{{ path('document_tracker_scan') }}" method="post">
+    <form  id="inputForm" action="{{ path('picker_log_scan') }}" method="post">
         <div>
             <div>
                 <input type="text" name="user" placeholder="User" required>
-            </div>
-            <div>
-                <input type="text" name="documentAction" placeholder="Action" required>
             </div>
             <div>
                 <input type="text" name="orderNumber" placeholder="Order Number" required>

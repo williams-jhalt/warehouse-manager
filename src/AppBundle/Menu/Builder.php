@@ -15,9 +15,18 @@ class Builder implements ContainerAwareInterface
         $menu = $factory->createItem('root');
 
         $menu->addChild('Home', array('route' => 'homepage'));
-        $menu->addChild('Document Tracker', array('route' => 'document_tracker_index'));
-        $menu->addChild('Product Lookup', array('route' => 'product_lookup_index'));
 
+        return $menu;
+    }
+    
+    public function sidebarMenu(FactoryInterface $factory, array $options)
+    {
+        $menu = $factory->createItem('root');
+        
+        $menu->addChild('Document Tracker', array('route' => 'document_tracker_index'));
+        $menu->addChild('Picker Log', array('route' => 'picker_log_index'));
+        $menu->addChild('Product Lookup', array('route' => 'product_lookup_index'));
+        
         return $menu;
     }
 
@@ -27,6 +36,16 @@ class Builder implements ContainerAwareInterface
 
         $menu->addChild('Scan', array('route' => 'document_tracker_index'));
         $menu->addChild('Search', array('route' => 'document_tracker_search'));
+
+        return $menu;
+    }
+
+    public function pickerLogMenu(FactoryInterface $factory, array $options)
+    {
+        $menu = $factory->createItem('root');
+
+        $menu->addChild('Scan', array('route' => 'picker_log_index'));
+        $menu->addChild('Search', array('route' => 'picker_log_search'));
 
         return $menu;
     }

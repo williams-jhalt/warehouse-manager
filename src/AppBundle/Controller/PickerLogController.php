@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\DocumentLog;
+use AppBundle\Entity\PickerLog;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -11,25 +12,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @Route("/document-tracker")
+ * @Route("/picker-log")
  */
-class DocumentTrackerController extends Controller {
+class PickerLogController extends Controller {
 
     /**
-     * @Route("/", name="document_tracker_index")
+     * @Route("/", name="picker_log_index")
      */
     public function indexAction(Request $request) {
-        return $this->render('document-tracker/index.html.twig');
+        return $this->render('picker-log/index.html.twig');
     }
 
     /**
-     * @Route("/scan", name="document_tracker_scan")
+     * @Route("/scan", name="picker_log_scan")
      */
     public function scanAction(Request $request) {
 
         $orderNumber = $request->get('orderNumber');
         $user = $request->get('user');
-        $documentAction = $request->get('documentAction');
 
         $messages = array();
 
@@ -37,30 +37,21 @@ class DocumentTrackerController extends Controller {
             $messages[] = "Not a valid order number";
         }
 
-        if ($documentAction != 'CHECK IN' && $documentAction != 'CHECK OUT') {
-            $messages[] = "Not a valid action";
-        }
-
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
                         'SELECT o '
-                        . 'FROM AppBundle:DocumentLog o '
+                        . 'FROM AppBundle:PickerLog o '
                         . 'WHERE o.orderNumber = :orderNumber '
                         . 'ORDER BY o.timestamp DESC')
                 ->setParameter('orderNumber', $orderNumber)
                 ->setMaxResults(1);
                 
         $test = $query->getOneOrNullResult();
-        
-        if ($test && $documentAction == $test->getDocumentAction()) {
-            $messages[] = "$orderNumber has already been $documentAction";
-        }
 
         if (sizeof($messages) == 0) {
-            $scan = new DocumentLog();
+            $scan = new PickerLog();
             $scan->setOrderNumber($orderNumber);
             $scan->setUser($user);
-            $scan->setDocumentAction($documentAction);
             $this->getDoctrine()->getManager()->persist($scan);
             $this->getDoctrine()->getManager()->flush();
         }
@@ -69,17 +60,17 @@ class DocumentTrackerController extends Controller {
     }
 
     /**
-     * @Route("/list", name="document_tracker_list")
+     * @Route("/list", name="picker_log_list")
      */
     public function listAction(Request $request) {
 
-        $scans = $this->getDoctrine()->getRepository('AppBundle:DocumentLog')->findBy(array(), array('timestamp' => 'desc'), 50);
+        $scans = $this->getDoctrine()->getRepository('AppBundle:PickerLog')->findBy(array(), array('timestamp' => 'desc'), 50);
 
-        return $this->render('document-tracker/list.html.twig', ['scans' => $scans]);
+        return $this->render('picker-log/list.html.twig', ['scans' => $scans]);
     }
 
     /**
-     * @Route("/search", name="document_tracker_search")
+     * @Route("/search", name="picker_log_search")
      */
     public function searchAction(Request $request) {
 
@@ -88,7 +79,7 @@ class DocumentTrackerController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
                         'SELECT o '
-                        . 'FROM AppBundle:DocumentLog o '
+                        . 'FROM AppBundle:PickerLog o '
                         . 'WHERE o.orderNumber LIKE :search '
                         . 'OR o.user = :user')
                 ->setParameter('search', $searchTerms . "%")
@@ -97,7 +88,7 @@ class DocumentTrackerController extends Controller {
 
         $scans = $query->getResult();
 
-        return $this->render('document-tracker/search.html.twig', ['scans' => $scans]);
+        return $this->render('picker-log/search.html.twig', ['scans' => $scans]);
     }
 
 }
