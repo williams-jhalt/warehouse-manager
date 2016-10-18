@@ -24,6 +24,13 @@
                     return false;
                 }
             });
+            $("input[name='documentAction']").keypress(function(e) {
+                var key = e.which;
+                if (key == 13) {                    
+                    $("input[name='orderNumber']").focus();
+                    return false;
+                }
+            });
             $("#inputForm").submit(function(event) {
                 $.post('{{ path('document_tracker_scan') }}', $(this).serialize(), function(data) {
                     updateList();

@@ -29,10 +29,12 @@ class DocumentTrackerController extends Controller {
 
         $orderNumber = $request->get('orderNumber');
         $user = $request->get('user');
+        $documentAction = $request->get('documentAction');
         
         $scan = new DocumentLog();
         $scan->setOrderNumber($orderNumber);
         $scan->setUser($user);
+        $scan->setDocumentAction($documentAction);
         $this->getDoctrine()->getManager()->persist($scan);
         $this->getDoctrine()->getManager()->flush();
 
