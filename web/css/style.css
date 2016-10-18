@@ -155,3 +155,10 @@ table.list tr th {
 table.list tr td {
     border-bottom: 1px solid black;
 }
+
+#messages {
+    background-color: red;
+    color: white;
+    padding: 1em;
+    border: 1px solid black;
+}

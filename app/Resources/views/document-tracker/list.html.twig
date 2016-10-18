@@ -3,6 +3,7 @@
         <tr>
             <th>Order Number</th>
             <th>User</th>
+            <th>Action</th>
             <th>Date</th>
         </tr>
     </thead>
@@ -11,6 +12,7 @@
             <tr>
                 <td>{{ scan.orderNumber }}</td>
                 <td>{{ scan.user }}</td>
+                <td>{{ scan.documentAction }}</td>
                 <td>{{ scan.timestamp|date('D, d M Y h:i:s a') }}</td>
             </tr>
         {% endfor %}

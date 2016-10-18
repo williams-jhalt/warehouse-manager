@@ -3,41 +3,58 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        
+
         function updateList() {
             $.get('{{ path('document_tracker_list') }}', function (data) {
                 $('#list').html(data);
-            });            
+            });
         }
-        
+
         function worker() {
             updateList();
             setTimeout(worker, 5000);
         }
-        
+
         $(document).ready(function () {
             $("input[name='user']").focus();
-            $("input[name='user']").keypress(function(e) {
+            $("input[name='user']").keypress(function (e) {
                 var key = e.which;
-                if (key == 13) {                    
+                if (key == 13) {
                     $("input[name='documentAction']").focus();
                     return false;
                 }
             });
-            $("input[name='documentAction']").keypress(function(e) {
+            $("input[name='documentAction']").keypress(function (e) {
                 var key = e.which;
-                if (key == 13) {                    
+                if (key == 13) {
                     $("input[name='orderNumber']").focus();
                     return false;
                 }
             });
-            $("#inputForm").submit(function(event) {
-                $.post('{{ path('document_tracker_scan') }}', $(this).serialize(), function(data) {
+            var timeout;
+            $("#inputForm").submit(function (event) {
+                clearTimeout(timeout);
+                $("#messages").hide();
+                $.post('{{ path('document_tracker_scan') }}', $(this).serialize(), function (data) {
+                    var messages = $.parseJSON(data).messages;
+                    if (messages.length > 0) {
+                        message = "";
+                        for (i = 0; i < messages.length; i++) {
+                            message = message + "\n" + messages[i];
+                        }
+                        $("#messages").text(message).show();
+                        setTimeout(function () {
+                            $("#messages").hide();
+                        }, 5000);
+                    }
                     updateList();
-                    $("input[name='user']").val('');
-                    $("input[name='documentAction']").val('');
+                    timeout = setTimeout(function() {
+                        $("input[name='user']").val('');
+                        $("input[name='documentAction']").val('');
+                        $("input[name='user']").focus();                        
+                    }, 25000);
                     $("input[name='orderNumber']").val('');
-                    $("input[name='user']").focus();
+                    $("input[name='orderNumber']").focus();
                 });
                 event.preventDefault();
             });
@@ -46,9 +63,13 @@
     </script>
 {% endblock %}
 
+{% block pageHeader %}
+    {{ knp_menu_render('AppBundle:Builder:documentLogMenu') }}    
+{% endblock %}
+
 {% block body %}
 
-    <br>
+    <div id="messages" style="display:none;"></div>
 
     <form  id="inputForm" action="{{ path('document_tracker_scan') }}" method="post">
         <div>

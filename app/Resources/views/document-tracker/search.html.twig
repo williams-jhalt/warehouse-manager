@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 
+{% block pageHeader %}
+    {{ knp_menu_render('AppBundle:Builder:documentLogMenu') }}    
+{% endblock %}
+
 {% block body %}
 
     <br>
 
-    <form class="w3-container" action="{{ path('search') }}">
-        <input class="w3-input w3-border w3-light-grey" type="text" name="searchTerms" placeholder="Search...">
+    <form action="{{ path('document_tracker_search') }}">
+        <input type="text" name="searchTerms" placeholder="Search...">
     </form>
 
     <br>
 
-    <table class="w3-table-all">
+    <table class="list">
         <thead>
             <tr>
                 <th>Order Number</th>
                 <th>User</th>
+                <th>Action</th>
                 <th>Date</th>
             </tr>
         </thead>
@@ -23,6 +28,7 @@
                 <tr>
                     <td>{{ scan.orderNumber }}</td>
                     <td>{{ scan.user }}</td>
+                    <td>{{ scan.documentAction }}</td>
                     <td>{{ scan.timestamp|date('D, d M Y h:i:s a') }}</td>
                 </tr>
             {% endfor %}

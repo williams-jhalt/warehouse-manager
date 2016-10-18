@@ -20,5 +20,15 @@ class Builder implements ContainerAwareInterface
 
         return $menu;
     }
+
+    public function documentLogMenu(FactoryInterface $factory, array $options)
+    {
+        $menu = $factory->createItem('root');
+
+        $menu->addChild('Scan', array('route' => 'document_tracker_index'));
+        $menu->addChild('Search', array('route' => 'document_tracker_search'));
+
+        return $menu;
+    }
     
 }
