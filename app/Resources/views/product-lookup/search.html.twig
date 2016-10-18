@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Search Results</h1>
+
+    <form action="{{ path('product_lookup_search') }}" method="get">
+        <input type="text" name="searchTerms">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
+    {% for item in items %}
+
+        <div>
+            <b>{{ item.itemNumber }}</b><br>
+            {{ item.name }}<br>
+            <b>Bin:</b> {{ item.binLocation }}
+        </div>
+
+        <hr>
+
+    {% endfor %}
+
+    <p><a href="{{ path('product_lookup_index') }}">Back</a></p>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <br>
+
+    <form class="w3-container" action="{{ path('search') }}">
+        <input class="w3-input w3-border w3-light-grey" type="text" name="searchTerms" placeholder="Search...">
+    </form>
+
+    <br>
+
+    <table class="w3-table-all">
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>User</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for scan in scans %}
+                <tr>
+                    <td>{{ scan.orderNumber }}</td>
+                    <td>{{ scan.user }}</td>
+                    <td>{{ scan.timestamp|date('D, d M Y h:i:s a') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
