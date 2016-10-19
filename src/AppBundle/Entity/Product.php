@@ -6,57 +6,75 @@ class Product {
 
     private $itemNumber;
     private $name;
-    private $description;
     private $price;
     private $stockQuantity;
+    private $committedQuantity;
     private $binLocation;
+    private $detail;
 
-    function getItemNumber() {
+    public function getItemNumber() {
         return $this->itemNumber;
     }
 
-    function getName() {
+    public function getName() {
         return $this->name;
     }
 
-    function getDescription() {
-        return $this->description;
-    }
-
-    function getPrice() {
+    public function getPrice() {
         return $this->price;
     }
 
-    function getStockQuantity() {
+    public function getStockQuantity() {
         return $this->stockQuantity;
     }
 
-    function getBinLocation() {
+    public function getCommittedQuantity() {
+        return $this->committedQuantity;
+    }
+
+    public function getBinLocation() {
         return $this->binLocation;
     }
 
-    function setItemNumber($itemNumber) {
+    public function setItemNumber($itemNumber) {
         $this->itemNumber = $itemNumber;
+        return $this;
     }
 
-    function setName($name) {
+    public function setName($name) {
         $this->name = $name;
+        return $this;
     }
 
-    function setDescription($description) {
-        $this->description = $description;
-    }
-
-    function setPrice($price) {
+    public function setPrice($price) {
         $this->price = $price;
+        return $this;
     }
 
-    function setStockQuantity($stockQuantity) {
+    public function setStockQuantity($stockQuantity) {
         $this->stockQuantity = $stockQuantity;
+        return $this;
     }
 
-    function setBinLocation($binLocation) {
-        $this->binLocation = $binLocation;
+    public function setCommittedQuantity($committedQuantity) {
+        $this->committedQuantity = $committedQuantity;
+        return $this;
     }
+
+    public function setBinLocation($binLocation) {
+        $this->binLocation = $binLocation;
+        return $this;
+    }
+    
+    public function getDetail() {
+        return $this->detail;
+    }
+
+    public function setDetail(ProductDetail $detail) {
+        $this->detail = $detail;
+        return $this;
+    }
+
+
 
 }

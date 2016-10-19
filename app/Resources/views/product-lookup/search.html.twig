@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block pageHeader %}
+    {{ knp_menu_render('AppBundle:Builder:productMenu') }}    
+{% endblock %}
+
 {% block body %}
 
     <h1>Search Results</h1>
@@ -14,9 +18,15 @@
     {% for item in items %}
 
         <div>
+            {% for image in item.detail.images %}
+                <img src="{{ image }}">
+            {% endfor %}<br>
             <b>{{ item.itemNumber }}</b><br>
             {{ item.name }}<br>
-            <b>Bin:</b> {{ item.binLocation }}
+            <blockquote>{{ item.detail.description }}</blockquote><br>
+            <b>Bin:</b> {{ item.binLocation }}<br>
+            <b>In Stock:</b> {{ item.stockQuantity }}<br>
+            <b>Committed:</b> {{ item.committedQuantity }}
         </div>
 
         <hr>

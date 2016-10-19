@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block pageHeader %}
+    {{ knp_menu_render('AppBundle:Builder:productMenu') }}    
+{% endblock %}
+
+{% block body %}
+
+    <h1>Committed Products</h1>
+
+    <form action="{{ path('product_lookup_committed') }}" method="get">
+        <input type="text" name="searchTerms">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
+    <table class="list">
+        <thead>
+            <tr>
+                <th>SKU</th>
+                <th>Name</th>
+                <th>Committed</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for item in items %}
+
+                <tr>
+                    <td>{{ item.itemNumber }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.committedQuantity }}</td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <p><a href="{{ path('product_lookup_committed', {page: page+1}) }}">More</a></p>
+
+    <p><a href="{{ path('product_lookup_index') }}">Back</a></p>
+
+{% endblock %}

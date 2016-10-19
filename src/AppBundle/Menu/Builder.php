@@ -49,5 +49,15 @@ class Builder implements ContainerAwareInterface
 
         return $menu;
     }
+
+    public function productMenu(FactoryInterface $factory, array $options)
+    {
+        $menu = $factory->createItem('root');
+
+        $menu->addChild('Lookup', array('route' => 'product_lookup_index'));
+        $menu->addChild('Committed', array('route' => 'product_lookup_committed'));
+
+        return $menu;
+    }
     
 }

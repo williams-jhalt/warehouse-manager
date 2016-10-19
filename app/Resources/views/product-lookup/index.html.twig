@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block pageHeader %}
+    {{ knp_menu_render('AppBundle:Builder:productMenu') }}    
+{% endblock %}
+
 {% block body %}
     
     <h1>Product Lookup</h1>

@@ -12,6 +12,10 @@ services:
         class: AppBundle\Service\ErpOneConnectorService
         arguments: [ "%erp_server%", "%erp_username%", "%erp_password%", "%erp_company%", "%erp_appname%" ] 
         
+    app.wholesale_service:
+        class: AppBundle\Service\WholesaleService
+        arguments: [ "@snc_redis.default" ]
+        
     app.product_service:
         class: AppBundle\Service\ProductService
-        arguments: [ "@app.erp_one_connector_service" ]
+        arguments: [ "@app.erp_one_connector_service", "@app.wholesale_service" ]
