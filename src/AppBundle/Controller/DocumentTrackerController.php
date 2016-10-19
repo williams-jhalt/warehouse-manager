@@ -29,7 +29,7 @@ class DocumentTrackerController extends Controller {
 
         $orderNumber = $request->get('orderNumber');
         $user = $request->get('user');
-        $documentAction = $request->get('documentAction');
+        $documentAction = strtoupper($request->get('documentAction'));
 
         $messages = array();
 
