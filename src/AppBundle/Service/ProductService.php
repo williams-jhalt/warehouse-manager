@@ -34,18 +34,9 @@ class ProductService {
 
         $response = $this->erp->read($query, "item.item,item.descr,wa_item.ship_location,wa_item.list_price,wa_item.qty_cmtd,wa_item.qty_oh");
 
-        $result = array();
+         $result = array();
 
         foreach ($response as $item) {
-
-            $wholesaleData = $this->wholesale->getProductData($item->item_item);
-            $wholesaleImageData = $this->wholesale->getProductImageData($item->item_item);
-
-            $images = array();
-
-            foreach ($wholesaleImageData as $wholesaleImage) {
-                $images[] = $wholesaleImage->image_thumb_url;
-            }
 
             $product = new Product();
             $product->setItemNumber($item->item_item);
@@ -56,8 +47,24 @@ class ProductService {
             $product->setCommittedQuantity($item->wa_item_qty_cmtd);
 
             $productDetail = new ProductDetail();
-            $productDetail->setDescription($wholesaleData->description);
-            $productDetail->setImages($images);
+
+            $wholesaleData = $this->wholesale->getProductData($item->item_item);
+            $wholesaleImageData = $this->wholesale->getProductImageData($item->item_item);
+
+            if (!empty($wholesaleData)) {
+                $productDetail->setDescription($wholesaleData->description);
+            }
+
+            if (!empty($wholesaleImageData)) {
+
+                $images = array();
+
+                foreach ($wholesaleImageData as $wholesaleImage) {
+                    $images[] = $wholesaleImage->image_thumb_url;
+                }
+
+                $productDetail->setImages($images);
+            }
 
             $product->setDetail($productDetail);
 
@@ -79,7 +86,7 @@ class ProductService {
         $query .= ", EACH wa_item NO-LOCK WHERE "
                 . "wa_item.company_it = item.company_it AND "
                 . "wa_item.item = item.item AND "
-                . "wa_item.qty_cmtd > 0 BY wa_item.qty_cmtd DESCENDING";
+                . "wa_item.qty_cmtd > 0";
 
         $response = $this->erp->read($query, "item.item,item.descr,wa_item.ship_location,wa_item.list_price,wa_item.qty_cmtd,wa_item.qty_oh", $offset, $limit);
 

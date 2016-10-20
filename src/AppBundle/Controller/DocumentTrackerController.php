@@ -90,7 +90,8 @@ class DocumentTrackerController extends Controller {
                         'SELECT o '
                         . 'FROM AppBundle:DocumentLog o '
                         . 'WHERE o.orderNumber LIKE :search '
-                        . 'OR o.user = :user')
+                        . 'OR o.user = :user '
+                        . 'ORDER BY o.timestamp DESC')
                 ->setParameter('search', $searchTerms . "%")
                 ->setParameter('user', $searchTerms)
                 ->setMaxResults(50);
