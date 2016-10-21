@@ -7,10 +7,12 @@
 {% block body %}
 
     <h1>Search Results</h1>
-
-    <form action="{{ path('product_lookup_search') }}" method="get">
-        <input type="text" name="searchTerms">
-        <button type="submit">Search</button>
+    
+    <form class="form-inline" action="{{ path('product_lookup_search') }}" method="get">
+        <div class="form-group">
+            <input class="form-control" type="text" name="searchTerms">
+        </div>
+        <button class="btn btn-default" type="submit">Search</button>
     </form>
 
     <br>
