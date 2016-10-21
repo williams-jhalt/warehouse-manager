@@ -1,36 +1,62 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet">
+            {% stylesheets '@bootstrap_css' %}
+                <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+            {% endstylesheets %}
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        
-        <div id="header">
-            {{ knp_menu_render('AppBundle:Builder:mainMenu') }}        
-            <br style="clear:both;">
+
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                {# Brand and toggle get grouped for better mobile display #}
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#admin-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Awesome!</a>
+                </div>
+
+                {# Collect the nav links, forms, and other content for toggling #}
+                <div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+                    {{ knp_menu_render('AppBundle:Builder:mainMenu', {'currentClass': 'active', 'template': 'AppBundle:Menu:knp_menu.html.twig'}) }}                    
+                </div>
+            </div>
         </div>
-        	
-        <div id="sidebar">
-            {% block sidebar %}
-                {{ knp_menu_render('AppBundle:Builder:sidebarMenu') }}    
-            {% endblock %}
+                
+        <div class="content" style="margin-top: 60px;">
+            
+            <div class="container row">
+
+                <div class="col-sm-3">
+                    {% block sidebar %}
+                        {{ knp_menu_render('AppBundle:Builder:sidebarMenu', {'currentClass': 'active', 'template': 'AppBundle:Menu:knp_menu.html.twig'}) }}    
+                    {% endblock %}
+                </div>
+
+                <div class="col-sm-9">
+                    {% block pageHeader %}{% endblock %}
+                    {% block body %}{% endblock %}
+                </div>
+
+            </div>
+        
         </div>
         
-        <div id="pageHeader">
-            {% block pageHeader %}{% endblock %}
-        </div>
-        
-        <div id="content">
-            {% block body %}{% endblock %}
-        </div>
-        
-        {% block javascripts %}        
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
+        {% block javascripts %}     
+            {% javascripts '@jquery' '@bootstrap_js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
         {% endblock %}
     </body>
 </html>

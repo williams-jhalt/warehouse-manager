@@ -13,6 +13,7 @@ class Builder implements ContainerAwareInterface
     public function mainMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
+    	$menu->setChildrenAttribute('class', 'nav navbar-nav');
 
         $menu->addChild('Home', array('route' => 'homepage'));
 
@@ -22,6 +23,7 @@ class Builder implements ContainerAwareInterface
     public function sidebarMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
+    	$menu->setChildrenAttribute('class', 'nav nav-pills nav-stacked');
         
         $menu->addChild('Document Tracker', array('route' => 'document_tracker_index'));
         $menu->addChild('Picker Log', array('route' => 'picker_log_index'));
@@ -33,6 +35,7 @@ class Builder implements ContainerAwareInterface
     public function documentLogMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
+    	$menu->setChildrenAttribute('class', 'nav nav-tabs');
 
         $menu->addChild('Scan', array('route' => 'document_tracker_index'));
         $menu->addChild('Search', array('route' => 'document_tracker_search'));
@@ -43,6 +46,7 @@ class Builder implements ContainerAwareInterface
     public function pickerLogMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
+    	$menu->setChildrenAttribute('class', 'nav nav-tabs');
 
         $menu->addChild('Scan', array('route' => 'picker_log_index'));
         $menu->addChild('Search', array('route' => 'picker_log_search'));
@@ -53,6 +57,7 @@ class Builder implements ContainerAwareInterface
     public function productMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
+    	$menu->setChildrenAttribute('class', 'nav nav-tabs');
 
         $menu->addChild('Lookup', array('route' => 'product_lookup_index'));
         $menu->addChild('Committed', array('route' => 'product_lookup_committed'));

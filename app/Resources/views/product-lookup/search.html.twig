@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block pageHeader %}
-    {{ knp_menu_render('AppBundle:Builder:productMenu') }}    
+    {{ knp_menu_render('AppBundle:Builder:productMenu', {'currentClass': 'active', 'template': 'AppBundle:Menu:knp_menu.html.twig'}) }}    
 {% endblock %}
 
 {% block body %}
@@ -17,16 +17,26 @@
 
     {% for item in items %}
 
-        <div>
-            {% for image in item.detail.images %}
-                <img src="{{ image }}">
-            {% endfor %}<br>
-            <b>{{ item.itemNumber }}</b><br>
-            {{ item.name }}<br>
-            <blockquote>{{ item.detail.description }}</blockquote><br>
-            <b>Bin:</b> {{ item.binLocation }}<br>
-            <b>In Stock:</b> {{ item.stockQuantity }}<br>
-            <b>Committed:</b> {{ item.committedQuantity }}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <b>{{ item.itemNumber }}</b> - {{ item.name }}
+            </div>
+            <div class="panel-body">
+                <div class="media">
+                    {% if item.detail.images is not empty %}
+                        <div class="media-left">
+                            <img class="media-object" src="{{ item.detail.images[0] }}">
+                        </div>
+                    {% endif %}
+                    <div class="media-body">
+                        {{ item.detail.description }}
+                    </div>
+                </div>
+                <b>Bin:</b> {{ item.binLocation }}<br>
+                <b>In Stock:</b> {{ item.stockQuantity }}<br>
+                <b>Committed:</b> {{ item.committedQuantity }}<br>
+                <b>Available:</b> {{ item.stockQuantity - item.committedQuantity }}
+            </div>
         </div>
 
         <hr>
