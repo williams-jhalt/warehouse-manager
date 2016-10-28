@@ -44,6 +44,20 @@ class PickerLog {
     private $timestamp;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="pageCount", type="integer", nullable=true)
+     */
+    private $pageCount = 1;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="lineCount", type="integer", nullable=true)
+     */
+    private $lineCount = 1;
+
+    /**
      * Get id
      *
      * @return int
@@ -123,6 +137,24 @@ class PickerLog {
      */
     public function prePersist() {
         $this->timestamp = new \DateTime();
+    }
+
+    public function getPageCount() {
+        return $this->pageCount;
+    }
+
+    public function getLineCount() {
+        return $this->lineCount;
+    }
+
+    public function setPageCount($pageCount) {
+        $this->pageCount = $pageCount;
+        return $this;
+    }
+
+    public function setLineCount($lineCount) {
+        $this->lineCount = $lineCount;
+        return $this;
     }
 
 }

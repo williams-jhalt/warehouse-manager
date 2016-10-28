@@ -30,6 +30,8 @@ class PickerLogController extends Controller {
 
         $orderNumber = $request->get('orderNumber');
         $user = $request->get('user');
+        $lineCount = $request->get('lineCount');
+        $pageCount = $request->get('pageCount');
 
         $messages = array();
 
@@ -52,6 +54,8 @@ class PickerLogController extends Controller {
             $scan = new PickerLog();
             $scan->setOrderNumber($orderNumber);
             $scan->setUser($user);
+            $scan->setLineCount($lineCount);
+            $scan->setPageCount($pageCount);
             $this->getDoctrine()->getManager()->persist($scan);
             $this->getDoctrine()->getManager()->flush();
         }
