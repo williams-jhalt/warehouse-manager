@@ -19,3 +19,11 @@ services:
     app.product_service:
         class: AppBundle\Service\ProductService
         arguments: [ "@app.erp_one_connector_service", "@app.wholesale_service" ]
+        
+    app.connectship_service:
+        class: AppBundle\Service\ConnectShipService
+        arguments: [ "%connectship_api_wsdl%" ]
+        
+    app.order_service:
+        class: AppBundle\Service\OrderService
+        arguments: [ "@app.erp_one_connector_service", "@snc_redis.default", "@app.product_service", "@app.connectship_service" ]

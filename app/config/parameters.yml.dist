@@ -23,3 +23,5 @@ parameters:
     erp_password:      ~
     erp_company:       ~
     erp_appname:       ~
+
+    connectship_api_wsdl: ~

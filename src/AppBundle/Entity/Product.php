@@ -4,13 +4,13 @@ namespace AppBundle\Entity;
 
 class Product {
 
-    private $itemNumber;
-    private $name;
-    private $price;
-    private $stockQuantity;
-    private $committedQuantity;
-    private $binLocation;
-    private $detail;
+    protected $itemNumber;
+    protected $name;
+    protected $price;
+    protected $stockQuantity;
+    protected $committedQuantity;
+    protected $binLocation;
+    protected $detail;
 
     public function getItemNumber() {
         return $this->itemNumber;

@@ -28,6 +28,7 @@ class Builder implements ContainerAwareInterface
         $menu->addChild('Document Tracker', array('route' => 'document_tracker_index'));
         $menu->addChild('Picker Log', array('route' => 'picker_log_index'));
         $menu->addChild('Product Lookup', array('route' => 'product_lookup_index'));
+        $menu->addChild('Order Lookup', array('route' => 'sales_orders_index'));
         
         return $menu;
     }

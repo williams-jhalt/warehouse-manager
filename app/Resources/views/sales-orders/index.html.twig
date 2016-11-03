@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    <br>
+
+    <form class="form-inline" id="inputForm" action="{{ path('sales_orders_list') }}" method="post">
+        <div class="form-group">
+            <input class="form-control" type="text" name="manifestId" placeholder="Manifest ID" required>
+        </div>
+        <button class="btn btn-default" type="submit">Submit</button>
+    </form>
+        
+    <br>
+
+{% endblock %}

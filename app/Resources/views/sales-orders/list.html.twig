@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    <br>
+
+    <form class="form-inline" id="inputForm" action="{{ path('sales_orders_list') }}" method="post">
+        <div class="form-group">
+            <input class="form-control" type="text" name="searchTerms" placeholder="Search..." required>
+        </div>
+        <button class="btn btn-default" type="submit">Submit</button>
+    </form>
+        
+    <br>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Order Date</th>
+                <th>Customer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="{{ path('sales_orders_view', {manifestId: order.manifestId, orderNumber: order.orderNumber, recordSequence: order.recordSequence}) }}">{{ order.manifestId }}</a></td>
+                <td>{{ order.orderDate|date('D, d M Y h:i:s a') }}</td>
+                <td>{{ order.customerNumber }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

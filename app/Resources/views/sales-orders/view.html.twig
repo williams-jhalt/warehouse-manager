@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    <h1>Viewing Order {{ order.orderNumber }}</h1>
+        
+    <h2>Cartons</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>UCC</th>
+                <th>Carton Number</th>
+                <th>Tracking Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for carton in cartons %}
+                <tr>
+                    <td><a href="{{ path('sales_orders_carton', {ucc: carton.ucc}) }}">{{ carton.ucc }}</a></td>
+                    <td>{{ carton.cartonNumber }}</td>
+                    <td>{{ carton.trackingNumber }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock %}
