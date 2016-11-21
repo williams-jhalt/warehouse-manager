@@ -2,46 +2,36 @@
 
 namespace AppBundle\Service;
 
+use Williams\ConnectShip\AMPServices;
+use Williams\ConnectShip\ListCarriersRequest;
+use Williams\ConnectShip\SearchRequest;
+
 class ConnectShipService {
-    
+
     /**
-     * @var \SoapClient
+     * @var AMPServices
      */
     private $client;
-    
+
     public function __construct($wsdl_url) {
-        
-        $this->client = new \SoapClient($wsdl_url, array('soap_version' => SOAP_1_2));
-                
-    }    
-    
+        $this->client = new AMPServices(array('soap_version' => SOAP_1_2), $wsdl_url);
+    }
+
     public function getTrackingNumber($ucc) {
         
-        $carriers = $this->client->ListCarriers();
+        $service = $this->client;
         
-        foreach ($carriers->result->resultData->item as $carrier) {
-        
-            $response = $this->client->Search(['carrier' => $carrier->symbol, 'filters' => ['consigneeReference' => $ucc], 'searchVoided' => "nonvoided"]);
-            
-            if (!isset($response->result->resultData->item)) {
-                continue;
-            }
-            
-            $item = $response->result->resultData->item;
+        $carriersResponse = $service->ListCarriers(new ListCarriersRequest(null, null, null, null));
 
-            if (is_array($item)) {
-                foreach ($item as $t) {
-                    if ($item->resultData->voided == "true") {
-                        continue;
-                    }
-                    return $item[0]->resultData->trackingNumber;
-                }
-            } else {
-                return $item->resultData->trackingNumber;
+        foreach ($carriersResponse->getResult()->getResultData()->getItem() as $carrier) {
+            $searchRequest = new SearchRequest($carrier->getSymbol(), null, null, null, null, null, null);
+            $searchRequest->setFilters(array('consigneeReference' => $ucc));
+            $searchResponse = $service->Search($searchRequest);
+            $item = $searchResponse->getResult()->getResultData()->getItem();
+            if ($item !== null) {
+                return $item[0]->getResultData()->getTrackingNumber();
             }
-            
         }
-                
     }
-    
+
 }

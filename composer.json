@@ -2,6 +2,16 @@
     "name": "johnh/warehouse.manager",
     "license": "proprietary",
     "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/williams-jhalt/connectship-connector-php"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/williams-jhalt/erp-connector-php"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "": "src/"
@@ -34,7 +44,9 @@
         "predis/predis": "1.0",
         "twitter/bootstrap": "3.*",
         "components/jquery": "1.11.1",
-        "symfony/assetic-bundle": "^2.8"
+        "symfony/assetic-bundle": "^2.8",
+        "williams/connectship-connector-php": "dev-master",
+        "williams/erp-connector-php": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

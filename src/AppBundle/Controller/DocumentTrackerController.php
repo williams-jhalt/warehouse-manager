@@ -3,10 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\DocumentLog;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -84,19 +83,34 @@ class DocumentTrackerController extends Controller {
     public function searchAction(Request $request) {
 
         $searchTerms = $request->get('searchTerms');
+        $startDate = $request->get('startDate');
+        $endDate = $request->get('endDate');
 
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-                        'SELECT o '
-                        . 'FROM AppBundle:DocumentLog o '
-                        . 'WHERE o.orderNumber LIKE :search '
-                        . 'OR o.user = :user '
-                        . 'ORDER BY o.timestamp DESC')
-                ->setParameter('search', $searchTerms . "%")
-                ->setParameter('user', $searchTerms)
+        $qb = $em->createQueryBuilder()
+                ->select('o')
+                ->from('AppBundle:DocumentLog', 'o');
+        
+        if ($searchTerms !== null) {
+            $qb->andWhere('o.orderNumber LIKE :search OR o.user = :user')
+                    ->setParameter('search', $searchTerms . "%")
+                    ->setParameter('user', $searchTerms);            
+        }
+        
+        if ($startDate !== null) {
+            $qb->andWhere('o.timestamp >= :startDate')
+                    ->setParameter('startDate', new DateTime($startDate));
+        }
+        
+        if ($endDate !== null) {
+            $qb->andWhere('o.timestamp <= :endDate')
+                    ->setParameter('endDate', new DateTime($endDate));
+        }
+        
+        $qb->orderBy('o.timestamp', 'desc')
                 ->setMaxResults(50);
 
-        $scans = $query->getResult();
+        $scans = $qb->getQuery()->getResult();
 
         return $this->render('document-tracker/search.html.twig', ['scans' => $scans]);
     }

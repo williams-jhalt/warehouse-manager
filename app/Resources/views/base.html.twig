@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            {% stylesheets '@bootstrap_css' %}
+            {% stylesheets '@bootstrap_css' '@bootstrap_datepicker_css' %}
                 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
             {% endstylesheets %}
         {% endblock %}
@@ -36,7 +36,7 @@
                 
         <div class="content" style="margin-top: 60px;">
             
-            <div class="container row">
+            <div class="container-fluid row">
 
                 <div class="col-sm-3">
                     {% block sidebar %}
@@ -54,7 +54,7 @@
         </div>
         
         {% block javascripts %}     
-            {% javascripts '@jquery' '@bootstrap_js' %}
+            {% javascripts '@jquery' '@bootstrap_js' '@bootstrap_datepicker_js' %}
                 <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
