@@ -2,12 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\DocumentLog;
 use AppBundle\Entity\PickerLog;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -87,18 +85,18 @@ class PickerLogController extends Controller {
                 ->select('o')
                 ->from('AppBundle:PickerLog', 'o');
         
-        if ($searchTerms !== null) {
+        if (!empty($searchTerms)) {
             $qb->andWhere('o.orderNumber LIKE :search OR o.user = :user')
                     ->setParameter('search', $searchTerms . "%")
                     ->setParameter('user', $searchTerms);            
         }
         
-        if ($startDate !== null) {
+        if (!empty($startDate)) {
             $qb->andWhere('o.timestamp >= :startDate')
                     ->setParameter('startDate', new DateTime($startDate));
         }
         
-        if ($endDate !== null) {
+        if (!empty($endDate)) {
             $qb->andWhere('o.timestamp <= :endDate')
                     ->setParameter('endDate', new DateTime($endDate));
         }

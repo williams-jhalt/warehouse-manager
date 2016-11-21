@@ -91,18 +91,18 @@ class DocumentTrackerController extends Controller {
                 ->select('o')
                 ->from('AppBundle:DocumentLog', 'o');
         
-        if ($searchTerms !== null) {
+        if (!empty($searchTerms)) {
             $qb->andWhere('o.orderNumber LIKE :search OR o.user = :user')
                     ->setParameter('search', $searchTerms . "%")
                     ->setParameter('user', $searchTerms);            
         }
         
-        if ($startDate !== null) {
+        if (!empty($startDate)) {
             $qb->andWhere('o.timestamp >= :startDate')
                     ->setParameter('startDate', new DateTime($startDate));
         }
         
-        if ($endDate !== null) {
+        if (!empty($endDate)) {
             $qb->andWhere('o.timestamp <= :endDate')
                     ->setParameter('endDate', new DateTime($endDate));
         }
