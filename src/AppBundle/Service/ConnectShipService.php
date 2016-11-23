@@ -28,7 +28,7 @@ class ConnectShipService {
             $searchRequest->setFilters(array('consigneeReference' => $ucc));
             $searchResponse = $service->Search($searchRequest);
             $item = $searchResponse->getResult()->getResultData()->getItem();
-            if ($item !== null) {
+            if ($item !== null && $item[0]->getResultData()->getTrackingNumber() != null) {
                 return $item[0]->getResultData()->getTrackingNumber();
             }
         }
